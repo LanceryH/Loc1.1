@@ -20,7 +20,7 @@ def f(t,y,M) :
         F[nb_corps*3+i*3:(i+1)*3+nb_corps*3,0]=(1/M[i]*S).reshape(-1)    
     return F   
  
-def Rk4(y,t0,tf,N,nb_corps,M):
+def Rk4(y,t0,tf,N,nb_corps,M,state_rebond):
     h=(tf-t0)/N
     t=t0
     Y=np.zeros((3*nb_corps,N))
@@ -33,9 +33,18 @@ def Rk4(y,t0,tf,N,nb_corps,M):
         t+=h    
         for j in range(0,nb_corps) :
             Y[j*3:(j+1)*3,i]=y[j*3:(j+1)*3,0]
+        for j in range(0,nb_corps-1):
+            for i in range(1,nb_corps):  
+                if j!=i: 
+                    X1=y[j*3:(j+1)*3,0].reshape(-1,1) 
+                    X2=y[i*3:(i+1)*3,0].reshape(-1,1)
+                    distance=np.linalg.norm(X1-X2)
+                    if  distance<4 and state_rebond==1: 
+                        y[3*(nb_corps+j):3*(nb_corps+j+1),0]=-y[3*(nb_corps+j):3*(nb_corps+j+1),0]
+                        y[3*(nb_corps+i):3*(nb_corps+i+1),0]=-y[3*(nb_corps+i):3*(nb_corps+i+1),0]
     return(Y)   
 
-def adaptive_rkf45(y, t0, tf, N, nb_corps, M):
+def adaptive_rkf45(y, t0, tf, N, nb_corps, M,state_rebond):
     h=(tf-t0)/N 
     t=t0
     ErreurAdmis=1e-6
@@ -60,10 +69,21 @@ def adaptive_rkf45(y, t0, tf, N, nb_corps, M):
         for j in range(0,nb_corps):
             Y[j*3:(j+1)*3,i]=yb[j*3:(j+1)*3,0] 
         y=yb    
+        if h<1e-6:
+            h=1e-6
+        for j in range(0,nb_corps-1):
+            for i in range(1,nb_corps):  
+                if j!=i: 
+                    X1=y[j*3:(j+1)*3,0].reshape(-1,1) 
+                    X2=y[i*3:(i+1)*3,0].reshape(-1,1)
+                    distance=np.linalg.norm(X1-X2)
+                    if  distance<4 and state_rebond==1: 
+                        y[3*(nb_corps+j):3*(nb_corps+j+1),0]=-y[3*(nb_corps+j):3*(nb_corps+j+1),0]
+                        y[3*(nb_corps+i):3*(nb_corps+i+1),0]=-y[3*(nb_corps+i):3*(nb_corps+i+1),0]          
     return Y
 
 
-def Rk2(y,t0,tf,N,nb_corps,M):
+def Rk2(y,t0,tf,N,nb_corps,M,state_rebond):
     h=(tf-t0)/N
     t=t0
     Y=np.zeros((3*nb_corps,N))
@@ -74,18 +94,27 @@ def Rk2(y,t0,tf,N,nb_corps,M):
         t+=h    
         for j in range(0,nb_corps) :
             Y[j*3:(j+1)*3,i]=y[j*3:(j+1)*3,0]
+        for j in range(0,nb_corps-1):
+            for i in range(1,nb_corps):  
+                if j!=i: 
+                    X1=y[j*3:(j+1)*3,0].reshape(-1,1) 
+                    X2=y[i*3:(i+1)*3,0].reshape(-1,1)
+                    distance=np.linalg.norm(X1-X2)
+                    if  distance<4 and state_rebond==1: 
+                        y[3*(nb_corps+j):3*(nb_corps+j+1),0]=-y[3*(nb_corps+j):3*(nb_corps+j+1),0]
+                        y[3*(nb_corps+i):3*(nb_corps+i+1),0]=-y[3*(nb_corps+i):3*(nb_corps+i+1),0]
     return(Y)  
 
-def verlet(bodies, root, theta, G, dt):
-    def force_on(body, node, theta):
-    if node.child is None:
-        return node.force_ap(body)
-    
-    if node.s < node.dist(body) * theta:
-        return node.force_ap(body)
+def Verlet(y,t0,tf,N,nb_corps,M):
+    h=(tf-t0)/N
+    t=t0
+    Y=np.zeros((3*nb_corps,N))
+    for i in range(0,N) : 
+        k1=h*f(t,y,M)
+        k2=h*f(t+h, y+k1,M)
+        y=y+(k1+k2)/2
+        t+=h    
+        for j in range(0,nb_corps) :
+            Y[j*3:(j+1)*3,i]=y[j*3:(j+1)*3,0]
+    return(Y)  
 
-    return sum(force_on(body, c, theta) for c in node.child if c is not None)
-    for body in bodies:
-        force = G * force_on(body, root, theta)
-        body.mom += dt * force
-        body.pos += dt * body.mom / body.m
