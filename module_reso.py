@@ -76,15 +76,8 @@ def Rk2(y,t0,tf,N,nb_corps,M):
             Y[j*3:(j+1)*3,i]=y[j*3:(j+1)*3,0]
     return(Y)  
 
-def Verlet(y,t0,tf,N,nb_corps,M):
-    h=(tf-t0)/N
-    t=t0
-    Y=np.zeros((3*nb_corps,N))
-    for i in range(0,N) : 
-        k1=h*f(t,y,M)
-        k2=h*f(t+h, y+k1,M)
-        y=y+(k1+k2)/2
-        t+=h    
-        for j in range(0,nb_corps) :
-            Y[j*3:(j+1)*3,i]=y[j*3:(j+1)*3,0]
-    return(Y)  
+def verlet(bodies, root, theta, G, dt):
+    for body in bodies:
+        force = G * force_on(body, root, theta)
+        body.mom += dt * force
+        body.pos += dt * body.mom / body.m
