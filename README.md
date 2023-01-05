@@ -31,6 +31,6 @@
 
 <img src="https://user-images.githubusercontent.com/108919405/210757777-54b760c6-2465-4866-b17e-fda96bb9e0e4.png" width="500" height="400"/>
 
-5. Go on the display tab and use the slider to plot the trajectory at N choosen
+5. Go on the display tab and use the slider to plot the trajectory
 
 <img src="https://user-images.githubusercontent.com/108919405/210758067-e1620f1c-4c02-4119-bdde-fa8a1d46141a.png" width="500" height="400"/>
