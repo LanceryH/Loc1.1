@@ -19,7 +19,18 @@
 
 
 
-EXEMPLE
+1. In the white drawing aera click 1 time to plot the object and click again to give it some speed values.
 
-<img src="https://user-images.githubusercontent.com/108919405/209424973-10d65b10-23b5-47c3-a3e2-375603f6fd05.png" width="400" height="400"/>
-<img src="https://user-images.githubusercontent.com/108919405/209424991-74670d87-9937-46cf-8b49-4ada8cfd2990.png" width="400" height="400"/>
+<img src="https://user-images.githubusercontent.com/108919405/210757354-e94a8d98-e683-4324-a861-42c7623c98db.png" width="500" height="400"/>
+
+2. Enter in the Simulation box all the data neeeded (you can let the masses on auto)
+
+3. Click on the calcul method you want
+
+4. Apply
+
+<img src="https://user-images.githubusercontent.com/108919405/210757777-54b760c6-2465-4866-b17e-fda96bb9e0e4.png" width="500" height="400"/>
+
+5. Go on the display tab and use the slider to plot the trajectory at N choosen
+
+<img src="https://user-images.githubusercontent.com/108919405/210758067-e1620f1c-4c02-4119-bdde-fa8a1d46141a.png" width="500" height="400"/>
