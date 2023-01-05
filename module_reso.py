@@ -77,6 +77,14 @@ def Rk2(y,t0,tf,N,nb_corps,M):
     return(Y)  
 
 def verlet(bodies, root, theta, G, dt):
+    def force_on(body, node, theta):
+    if node.child is None:
+        return node.force_ap(body)
+    
+    if node.s < node.dist(body) * theta:
+        return node.force_ap(body)
+
+    return sum(force_on(body, c, theta) for c in node.child if c is not None)
     for body in bodies:
         force = G * force_on(body, root, theta)
         body.mom += dt * force
