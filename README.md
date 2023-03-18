@@ -1,5 +1,5 @@
 # N objects trajectory calculator (Sandbox ; Raw inputs)
-
+## Based on Runge-Kutta 5 adaptatif
     ┌──┐ 
     │  │ ┌─────────────┐
     │  │ │  ┌───────┐  │
