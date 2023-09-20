@@ -22,7 +22,7 @@
 
 <img src="https://user-images.githubusercontent.com/108919405/214645378-0505c581-9bb3-4097-bb7e-57458bdbe863.png" width="500" height="400"/>
 
-2. Enter in the Simulation box all the data neeeded (you can let the masses on auto)
+2. Enter in the Simulation box all the data needed (you can let the masses on auto)
 
 3. Click on the calcul method you want
 
